@@ -1,4 +1,6 @@
-import { CreateOutlined, SubjectOutlined } from "@mui/icons-material";
+import { PropsWithChildren } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useThemeContext } from "../context/ThemeContextProvider";
 import {
   Drawer,
   Toolbar,
@@ -10,9 +12,14 @@ import {
   AppBar,
   Typography,
   ListItemIcon,
+  IconButton,
 } from "@mui/material";
-import { PropsWithChildren } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import {
+  Brightness4Rounded,
+  Brightness7Rounded,
+  CreateOutlined,
+  SubjectOutlined,
+} from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -20,6 +27,7 @@ const Layout = (props: PropsWithChildren) => {
   const { children } = props;
   const navigate = useNavigate();
   const location = useLocation();
+  const { mode, toggleColorMode } = useThemeContext();
 
   const menuItems = [
     {
@@ -40,10 +48,17 @@ const Layout = (props: PropsWithChildren) => {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Toolbar>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="h5" noWrap component="h1">
             Notes
           </Typography>
+          <IconButton
+            onClick={toggleColorMode}
+            color="inherit"
+            sx={{ justifyContent: "flex-end" }}
+          >
+            {mode === "dark" ? <Brightness4Rounded /> : <Brightness7Rounded />}
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
